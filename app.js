@@ -13,13 +13,13 @@ app
     // Récupération d'un utilisateur
     .get(function (req, res) {
         var id = req.params.id;
-
         /**
          * Implémenter ce controlleur afin qu'il rechereche en base de donnée l'utilisateur par son ID et le retourne
          * sous format json au client.(voir le controlleur .post)
          */
-
-        res.send('Not implemented');
+        var repository = new UserRepository(db);
+        user = repository.findOneById(id);
+        res.send(user)
     })
 
     // Creation d'un utilisateur
@@ -39,12 +39,17 @@ app
 
     //mise à jour d'un utilisateur
     .put(function (req, res) {
-
+        var repository = new UserRepository(db);
         /**
          * Implémenter le controlleur
          */
-
-        res.send('Not implemented');
+        var user = new User();
+        user.id = req.params.id;
+        user.firstname = req.body.firstname;
+        user.lastname = req.body.lastname;
+        user.birthday = req.body.birthday;
+        repository.update(user)
+        res.send("Updated");
     })
 
     //suppression d'un utilisateur
@@ -52,8 +57,10 @@ app
         /**
          * Implémenter le controlleur
          */
-
-        res.send('Not implemented');
+        var repository = new UserRepository(db);
+        var id = req.params.id;
+        repository.delete(id)
+        res.send("Deleted");
     });
 
 
